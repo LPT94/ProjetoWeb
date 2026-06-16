@@ -25,6 +25,27 @@
             return $listaCategoria;
         }
 
+        public function insert(\MODEL\Categoria $categoria){
+
+            try{
+                $sql = "INSERT INTO categoria (id, descricao)
+                VALUES ('{$categoria->getId()}', '{$categoria->getDescricao()}')";
+
+                $con = Conexao::conectar();
+                $resultado = $con->query($sql);
+                Conexao::desconectar();
+
+                return "Ok";
+            }
+            
+            catch(\PDOException $e){
+                if($e->getCode() == 23000){
+                    return "id_duplicado";
+                }
+                return "erro";
+            }
+        }
+        
     }
 
 ?>
