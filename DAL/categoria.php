@@ -11,7 +11,7 @@
             $sql = "Select * from categoria;";
             $con = Conexao::conectar();
             $registros = $con->query($sql);
-            $con = Conexao::desconectar();
+            Conexao::desconectar();
 
             $listaCategoria = [];
             foreach($registros as $linha){

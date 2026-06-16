@@ -3,7 +3,7 @@
    use PDO; 
    
     class Conexao {
-        private static $dbNome = 'automotiva'; 
+        private static $dbNome = 'DBautomotiva'; 
         private static $dbHost = 'localhost';
         private static $dbUsuario = 'root'; 
         private static $dbSenha = '';

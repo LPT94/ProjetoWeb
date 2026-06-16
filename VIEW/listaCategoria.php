@@ -4,10 +4,9 @@
 
     use DAL\Categoria;
 
-    $dalCategoria = new DAL\Categoria();
+    $dalCategoria = new Categoria();
 
     $listaCategoria = $dalCategoria->select();
-
 ?>
 
 <!DOCTYPE html>
@@ -16,26 +15,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Categorias</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <div class="center">
-        <h1>Lista de Categorias</h1>
-        <?php if (!$listaCategoria) {
-                echo "<tr><td colspan='2'>Lista vazia!</td></tr>";
-        } else {
-                foreach ($listaCategoria as $categoria) {
-        ?>
-            <tr>
-                <td><?php echo $categoria->getId(); ?></td>
-                <td><?php echo $categoria->getDescricao(); ?></td>
-            </tr>
-    <?php
-                }   
-            }
-    ?>
-</table>
 
-    </div>    
+<div class="container">
+
+    <div class="cabecalho">
+
+        <h1>Categorias</h1>
+
+        <a href="cadastroCategoria.php" class="btn">
+            Nova Categoria
+        </a>
+
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        <?php
+
+        if(count($listaCategoria) == 0){
+
+            echo "
+                <tr>
+                    <td colspan='3'>Nenhuma categoria cadastrada.</td>
+                </tr>
+            ";
+
+        }else{
+
+            foreach($listaCategoria as $categoria){
+        ?>
+
+                <tr>
+
+                    <td><?php echo $categoria->getId(); ?></td>
+
+                    <td><?php echo $categoria->getDescricao(); ?></td>
+
+                    <td>
+
+                        <a href="#" class="btn-editar">
+                            Editar
+                        </a>
+
+                        <a href="#" class="btn-excluir">
+                            Excluir
+                        </a>
+
+                    </td>
+
+                </tr>
+
+        <?php
+            }
+        }
+        ?>
+
+        </tbody>
+
+    </table>
+
+</div>
 
 </body>
 </html>
