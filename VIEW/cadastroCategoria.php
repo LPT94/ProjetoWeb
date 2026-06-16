@@ -88,9 +88,9 @@
 
         return true;
     }
-</script>
 
-<script>            <!-- script para contar elementos inseridos no formulario no campo id='descricao' -->
+
+       <!-- script para contar elementos inseridos no formulario no campo id='descricao' -->
 
 document.addEventListener("DOMContentLoaded", function(){
 

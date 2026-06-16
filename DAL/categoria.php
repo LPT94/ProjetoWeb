@@ -25,6 +25,22 @@
             return $listaCategoria;
         }
 
+        public function selectById(int $id){
+
+            $sql = "Select * from categoria where id=?";
+            $con = Conexao::conectar();
+            $query = $con->prepare($sql);
+            $query->execute(array($id));
+            $linha = $query->fetch(\PDO::FETCH_ASSOC);
+            Conexao::desconectar();
+
+            $categoria = new \MODEL\Categoria();
+            $categoria->setId($linha['id']);
+            $categoria->setDescricao($linha['descricao']);
+
+            return $categoria;
+        }
+
         public function insert(\MODEL\Categoria $categoria){
 
             try{
@@ -35,7 +51,7 @@
                 $resultado = $con->query($sql);
                 Conexao::desconectar();
 
-                return "Ok";
+                return "sucesso";
             }
             
             catch(\PDOException $e){
@@ -45,7 +61,21 @@
                 return "erro";
             }
         }
-        
+
+        public function update(\MODEL\Categoria $categoria){
+
+            try{
+                $sql = "UPDATE categoria SET descricao =? where id=?";
+                $con = Conexao::conectar();
+                $query = $con->prepare($sql);
+                $query->execute(array($categoria->getDescricao(), $categoria->getId()));
+                Conexao::desconectar();
+                return true;
+            }
+            catch(\PDOException $e){
+                return false;
+            }
+        }
     }
 
 ?>

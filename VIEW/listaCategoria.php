@@ -67,7 +67,7 @@
 
                     <td>
 
-                        <a href="#" class="btn-editar">
+                        <a href="editarCategoria.php?id=<?php echo $categoria->getId(); ?>" class="btn-editar">
                             Editar
                         </a>
 
