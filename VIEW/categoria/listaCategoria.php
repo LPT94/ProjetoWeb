@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Categorias</title>
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="/ProjetoWeb/assets/css/style.css">
 </head>
 <body>
 
@@ -71,7 +71,7 @@
                             Editar
                         </a>
 
-                        <a href="#" class="btn-excluir">
+                        <a href="removeCategoria.php?id=<?php echo $categoria->getId(); ?>" class="btn-excluir">
                             Excluir
                         </a>
 

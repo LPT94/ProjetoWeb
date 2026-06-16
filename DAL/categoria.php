@@ -76,6 +76,22 @@
                 return false;
             }
         }
+
+        public function delete(int $id){
+            
+            try{
+                $sql = "DELETE from categoria where id=?";
+                $con = Conexao::conectar();
+                $query = $con->prepare($sql);
+                $query->execute(array($id));
+                Conexao::desconectar();
+
+                return true;
+            }
+            catch(\PODEXception $e){
+                return false;
+            }
+        }
     }
 
 ?>
