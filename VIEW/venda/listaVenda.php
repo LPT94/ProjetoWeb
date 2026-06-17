@@ -60,7 +60,8 @@
 
                 <tr>
                     <td><?php echo $venda->getId(); ?></td>
-                    <td><?php echo $venda->getDescricao(); ?></td>
+                    <td><?php echo $venda->getData_venda(); ?></td>
+                    <td><?php echo $venda->getValor(); ?></td>
                     <td>
                         <a href="editarVenda.php?id=<?php echo $venda->getId(); ?>" class="btn-editar">
                             Editar

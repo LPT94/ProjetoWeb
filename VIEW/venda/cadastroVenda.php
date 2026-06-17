@@ -22,7 +22,7 @@ $listaProduto = $dalProduto->select();
         <h1>Cadastro de Venda</h1>
 
         <form
-        action="opCadastroProduto.php"
+        action="opCadastroVenda.php"
         method="POST"
         onsubmit="return validarFormulario()"
         >
@@ -30,6 +30,7 @@ $listaProduto = $dalProduto->select();
                 <label>Data da Venda</label> 
                 <input type="date" 
                     name="data_venda" 
+                    id="data_venda"
                     value="<?php echo date('Y-m-d'); ?>" 
                     required > 
             </div> 
@@ -55,35 +56,48 @@ $listaProduto = $dalProduto->select();
                     min="1" 
                     value="1" > 
             </div> 
-            <button type="button" 
-                    class="btn-salvar" 
-                    onclick="adicionarItem()" > 
-                    Adicionar Item 
-            </button>
+            <div class="button-venda">
+
+                <button type="button" 
+                        class="button-item" 
+                        onclick="adicionarItem()" > 
+                        Adicionar Item 
+                </button>
+
+                <button type="submit"
+                        class="btn-salvar">
+                        Salvar Venda
+                </button>
+                <a  href="listaVenda.php" class="btn-cancelar">
+                    Cancelar Venda
+                </a>
+            </div>
+
+            <table id="tabelaItens">
+
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Subtotal</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody id="corpoTabela">
+
+                </tbody>
+
+            </table>
+            <div id="hiddenItens"></div>
+        
+            <h2 id="totalVenda">Total: R$ 0,00</h2>
         </form>
-
-        <table id="tabelaItens">
-
-            <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>Quantidade</th>
-                    <th>Valor Unitário</th>
-                    <th>Subtotal</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-
-            <tbody id="corpoTabela">
-
-            </tbody>
-
-        </table>
-
     <tbody>
 
     </tbody>
-    <h2 id="totalVenda">Total: R$ 0,00</h2>
+    
     
     </div>
 
@@ -126,18 +140,76 @@ $listaProduto = $dalProduto->select();
                 <td>R$ ${preco.toFixed(2)}</td>
                 <td>R$ ${subtotal.toFixed(2)}</td>
                 <td>
-                    -
+                    <button type="button"
+                            onclick="removerItem(this, '${produtoId}', ${subtotal})"
+                            class="btn-cancelar">
+                        Remover
+                    </button>
                 </td>
             </tr>
         `;
 
         produtosInseridos.push(produtoId);
 
+        let hiddenContainer = document.getElementById("hiddenItens");
+
+        hiddenContainer.innerHTML += `
+            <input
+                type="hidden"
+                name="id_produto[]"
+                value="${produtoId}"
+                id="produto_${produtoId}"
+            >
+
+            <input
+                type="hidden"
+                name="qtde[]"
+                value="${qtde}"
+                id="qtde_${produtoId}"
+            >
+
+            <input
+                type="hidden"
+                name="valor[]"
+                value="${preco}"
+                id="valor_${produtoId}"
+            >
+        `;
+
         total += subtotal;
         document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
     }
 
+    function removerItem(botao, produtoId, subtotal){
 
+        let linha = botao.parentNode.parentNode;
+        linha.remove();
+
+        total -= subtotal;
+
+        document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
+
+        let indice = produtosInseridos.indexOf(produtoId);
+        if(indice !== -1){
+            produtosInseridos.splice(indice, 1);
+        }
+
+        let hProduto = document.getElementById("produto_" + produtoId);
+        if(hProduto){
+            hProduto.remove();
+        }
+
+        let hQtde = document.getElementById("qtde_" + produtoId);
+        if(hQtde){
+            hQtde.remove();
+        }
+
+        let hValor = document.getElementById("valor_" + produtoId);
+        if(hValor){
+            hValor.remove();
+        }
+
+    }
 
 </script>
 
