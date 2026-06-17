@@ -1,16 +1,16 @@
 <?php
 
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
 
     $id = $_POST['id'];
 
-    $dalCategoria = new DAL\Categoria();
+    $dalProduto = new DAL\Produto();
 
-    $resultado = $dalCategoria->delete($id);
+    $resultado = $dalProduto->delete($id);
 
     switch($resultado){
         case "sucesso":
-            header("location: listaCategoria.php");
+            header("location: listaProduto.php");
             break;
         case "erro_fk_uso":
             header("location: erroFkUso.html");

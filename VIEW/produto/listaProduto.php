@@ -1,10 +1,12 @@
 <?php
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/categoria.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
 
-    use DAL\Produto;
 
-    $dalProduto= new Produto();
+    $dalProduto = new \DAL\Produto();
+    $dalCategoria = new \DAL\Categoria();
 
     $listaProduto = $dalProduto->select();
 ?>
@@ -55,7 +57,9 @@
 
                 <p>
                     <strong>Categoria:</strong>
-                    <?php echo $produto->getId_categoria(); ?>
+                    <?php echo $produto->getId_categoria();?>
+                    <strong>Descrição:</strong>
+                    <?php echo $dalCategoria->selectById($produto->getId_categoria())->getDescricao(); ?>
                 </p>
 
                 <p>
@@ -74,7 +78,7 @@
                 </p>
 
                 <p>
-                    <strong>Descrição:</strong>
+                    <strong>Descrição Produto:</strong>
                     <?php echo $produto->getDescricao(); ?>
                 </p>
 

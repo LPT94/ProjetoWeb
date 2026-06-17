@@ -86,10 +86,16 @@
                 $query->execute(array($id));
                 Conexao::desconectar();
 
-                return true;
+                return "sucesso";
             }
-            catch(\PODEXception $e){
-                return false;
+            catch(\PDOException $e){
+                $erro = $e->errorInfo[1];
+                switch($erro){
+                    case 1451:
+                        return "erro_fk_uso";
+                    default:
+                        return "erro_generico";
+                }
             }
         }
     }
