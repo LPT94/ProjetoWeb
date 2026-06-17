@@ -24,10 +24,11 @@
 
             <input
                 class="input-reduzido"
-                type="text"
+                type="number"
                 id="id"
                 name="id"
-                maxlength="5"
+                min="1"
+                max="99999"
                 required
                 
             >
@@ -73,15 +74,9 @@
 <script> <!-- script para não permitir inserir espaços vazios -->
     function validarFormulario() {
 
-        let id = document.getElementById("id").value.trim();
         let descricao = document.getElementById("descricao").value.trim();
 
-        if(id == ""){
-            alert("Informe o id da categoria.");
-            return false
-        }
-
-        if (descricao === "") {
+        if (descricao == "") {
             alert("Informe a descrição da categoria.");
             return false;
         }

@@ -140,9 +140,37 @@ tr:hover{
 }
 
 .input-reduzido{
-    width: 75px;
+    width: 82px;
 }
 
 .input-maior{
     width: 100%;
+}
+
+.card-produto{
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card-produto h2{
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.card-produto p{
+    margin-bottom: 8px;
+}
+
+.acoes{
+    margin-top: 15px;
+}
+
+select{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
 }

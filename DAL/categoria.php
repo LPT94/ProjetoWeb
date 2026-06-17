@@ -8,7 +8,7 @@
     class Categoria{
 
         public function select(){
-            $sql = "Select * from categoria;";
+            $sql = "Select * from categoria";
             $con = Conexao::conectar();
             $registros = $con->query($sql);
             Conexao::desconectar();
