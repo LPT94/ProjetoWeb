@@ -3,10 +3,28 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/categoria.php";
 
+    //---------validações
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){
+        header("location: cadastroCategoria.php");
+        exit;
+    }
+    //validação id
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    if($id === false || $id == null){
+        header("location: erroGenerico.html");
+        exit;
+    }
+    //validação string
+    $descricao = trim($_POST['descricao']);
+    if(empty($descricao)){
+        header("location: erroGenerico.html");
+        exit;
+    }
+
     $modelCategoria = new MODEL\Categoria();
 
-    $modelCategoria->setId($_POST['id']);
-    $modelCategoria->setDescricao($_POST['descricao']);
+    $modelCategoria->setId($id);
+    $modelCategoria->setDescricao($descricao);
 
     $dalCategoria = new DAL\Categoria();
     
@@ -16,13 +34,14 @@
 
         case "id_duplicado":
             header("location: erroIdDuplicado.html");
-            break;
+            exit;
         
         case "sucesso":
             header("location: listaCategoria.php");
-            break;
+            exit;
         
         default:
             header("location: erroGenerico.html");
+            exit;
     }
 ?>

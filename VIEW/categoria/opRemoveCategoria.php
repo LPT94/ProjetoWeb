@@ -2,7 +2,18 @@
 
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
 
-    $id = $_POST['id'];
+    //---------validações
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){
+        header("location: listaCategoria.php");
+        exit;
+    }
+
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+    if($id === false || $id == null){
+        header("location: erroGenerico.html");
+        exit;
+    }
 
     $dalCategoria = new DAL\Categoria();
 
@@ -11,12 +22,12 @@
     switch($resultado){
         case "sucesso":
             header("location: listaCategoria.php");
-            break;
+            exit;
         case "erro_fk_uso":
             header("location: erroFkUso.html");
-            break;
+            exit;
         default:
             header("location: erroGenerico.html");
-            break;
+            exit;
     }
 ?>

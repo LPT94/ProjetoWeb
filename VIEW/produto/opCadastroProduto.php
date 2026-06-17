@@ -3,15 +3,53 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
 
+    //---------validações
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){
+        header("location: cadastroProduto.php");
+        exit;
+    }
+    //validação id
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    if($id === false || $id == null){
+        header("location: erroGenerico.html");
+        exit;
+    }
+    //validação id_categoria
+    $id_categoria = filter_input(INPUT_POST, 'id_categoria', FILTER_VALIDATE_INT);
+    if($id_categoria === false || $id_categoria == null){
+        header("location: erroGenerico.html");
+        exit;
+    }
+    //validação preco
+    $preco = filter_input(INPUT_POST, 'preco', FILTER_VALIDATE_FLOAT);
+    if($preco === false || $preco <= 0){
+        header("location: erroGenerico.html");
+        exit;
+    }
+    //validação estoque
+    $qtde_estoque = filter_input(INPUT_POST, 'qtde_estoque', FILTER_VALIDATE_FLOAT);
+    if($qtde_estoque == false || $qtde_estoque <= 0){
+        header("location: erroGenerico.html");
+        exit;
+    }
+    //validação strings
+    $nome = trim($_POST['nome']);
+    $descricao = trim($_POST['descricao']);
+    $fabricante = trim($_POST['fabricante']);
+    if(empty($nome) || empty($descricao) || empty($fabricante)){
+        header("location: erroGenerico.html");
+        exit;
+    }
+
     $modelProduto = new MODEL\Produto();
 
-    $modelProduto->setId($_POST['id']);
-    $modelProduto->setId_categoria($_POST['id_categoria']);
-    $modelProduto->setNome($_POST['nome']);
-    $modelProduto->setDescricao($_POST['descricao']);
-    $modelProduto->setPreco($_POST['preco']);
-    $modelProduto->setQtde_estoque($_POST['qtde_estoque']);
-    $modelProduto->setFabricante($_POST['fabricante']);
+    $modelProduto->setId($id);
+    $modelProduto->setId_categoria($id_categoria);
+    $modelProduto->setNome($nome);
+    $modelProduto->setDescricao($descricao);
+    $modelProduto->setPreco($preco);
+    $modelProduto->setQtde_estoque($qtde_estoque);
+    $modelProduto->setFabricante($fabricante);
 
     $dalProduto = new DAL\Produto();
     $resultado = $dalProduto->insert($modelProduto);
@@ -20,20 +58,19 @@
 
         case "id_duplicado":
             header("location: erroIdDuplicado.html");
-            break;
+            exit;
         
         case "fk_nao_encontrada":
             header("location: erroFk.html");
-            break;
+            exit;
         
         case "sucesso":
             header("location: listaProduto.php");
-            break;
+            exit;
         
         default:
-            echo $resultado;
-            die();
             header("location: erroGenerico.html");
+            exit;
     }
     
 ?>

@@ -5,9 +5,26 @@
 
     $modelCategoria = new MODEL\Categoria();
     
-
-    $modelCategoria->setId($_POST['id']);
-    $modelCategoria->setDescricao($_POST['descricao']);
+    //---------validações
+    if($_SERVER['REQUEST_METHOD'] != 'POST'){
+        header("location: listaCategoria.php");
+        exit;
+    }
+    //validação id
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    if($id === false || $id == null){
+        header("location: erroGenerico.html");
+        exit;
+    }
+    //validação string
+    $descricao = trim($_POST['descricao']);
+    if(empty($descricao)){
+        header("location: erroGenerico.html");
+        exit;
+    }
+    
+    $modelCategoria->setId($id);
+    $modelCategoria->setDescricao($descricao);
 
     $dalCategoria = new DAL\Categoria();
     
@@ -15,9 +32,11 @@
 
     if($resultado){
         header("location: listaCategoria.php");
+        exit;
     }
     else{
         header("location: erroGenerico.html");
+        exit;
     }
 
 ?>
