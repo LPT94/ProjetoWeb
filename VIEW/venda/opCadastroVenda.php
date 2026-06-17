@@ -21,6 +21,12 @@
     $valores = $_POST['valor'];                   //valor de cada item na venda  
     $valorVenda = 0;
 
+    //valida se os vetores são do mesmo tamanho
+    if(count($produtos) != count($quantidades) || count($produtos) != count($valores)){
+        header("Location: cadastroVenda.php");
+        exit;
+    }
+
     //valida estoque
     $dalProduto = new \DAL\Produto();
     for ($i = 0; $i < count($produtos); $i++) {
@@ -28,7 +34,7 @@
         $produto = $dalProduto->selectById($produtos[$i]);
 
         if ($produto->getQtde_estoque() < $quantidades[$i]) {
-            header("location: erroEstoque.php?id=<?php echo $produto->getId(); ?>");
+            header("location: erroEstoque.php?id=".$produto->getId());
             exit;
         }
     }

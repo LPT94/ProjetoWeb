@@ -1,9 +1,14 @@
 <?php
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
 
-    $id = $_GET['id'];
+    //validação de id
+    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    if ($id === false || $id === null) {
+        die("ID inválido.");
+    }
+
     
     $dalProduto = new \DAL\Produto();
 

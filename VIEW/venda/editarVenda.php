@@ -137,6 +137,12 @@
                         }
                     }
                 ?>
+                    <input
+                        type="hidden"
+                        name="id_venda"
+                        value="<?= $venda->getId() ?>"
+                        id="id_venda"
+                    >
 
                     <input
                         type="hidden"
