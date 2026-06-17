@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 16/06/2026 às 04:12
+-- Tempo de geração: 17/06/2026 às 06:14
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -19,7 +19,6 @@ SET time_zone = "+00:00";
 
 CREATE DATABASE IF NOT EXISTS `automotiva` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `automotiva`;
---
 --
 -- Banco de dados: `automotiva`
 --
@@ -91,7 +90,8 @@ INSERT INTO `usuario` (`login`, `senha`, `tipo`) VALUES
 
 CREATE TABLE `venda` (
   `id` int(5) NOT NULL,
-  `valor` float NOT NULL
+  `valor` float NOT NULL,
+  `data_venda` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -108,7 +108,8 @@ ALTER TABLE `categoria`
 -- Índices de tabela `item_venda`
 --
 ALTER TABLE `item_venda`
-  ADD PRIMARY KEY (`id_venda`,`id_produto`);
+  ADD PRIMARY KEY (`id_venda`,`id_produto`),
+  ADD KEY `item_Produto_FK` (`id_produto`);
 
 --
 -- Índices de tabela `produto`
@@ -128,6 +129,16 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `venda`
   ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `venda`
+--
+ALTER TABLE `venda`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas

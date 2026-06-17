@@ -91,7 +91,7 @@
                 required
             >
             <small id="contador0">
-                0 / 50 caracteres
+                <?php echo strlen($produto->getNome()); ?> / 50 caracteres
             </small>
         </div>
 
@@ -110,7 +110,7 @@
             >
 
             <small id="contador1">
-                0 / 100 caracteres
+                <?php echo strlen($produto->getDescricao()); ?> / 100 caracteres
             </small>
 
         </div>
@@ -162,7 +162,7 @@
                 required
             >
             <small id="contador2">
-                0 / 50 caracteres
+                <?php echo strlen($produto->getFabricante()); ?> / 50 caracteres
             </small>
         </div>
 
@@ -187,8 +187,6 @@
     </form>
 
 </div>
-</body>
-
 <script>
 
 function validarFormulario(){
@@ -247,3 +245,6 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 </script>
+</body>
+</html>
+

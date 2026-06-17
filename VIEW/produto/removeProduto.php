@@ -156,9 +156,6 @@
     </form>
 
 </div>
-</body>
-</html>
-
 <script>
 function confirmarFormulario(){
 
@@ -168,3 +165,5 @@ function confirmarFormulario(){
 
 }
 </script>
+</body>
+</html>

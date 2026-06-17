@@ -28,7 +28,7 @@
     }
     //validação estoque
     $qtde_estoque = filter_input(INPUT_POST, 'qtde_estoque', FILTER_VALIDATE_FLOAT);
-    if($qtde_estoque == false || $qtde_estoque <= 0){
+    if($qtde_estoque < 0){
         header("location: erroGenerico.html");
         exit;
     }

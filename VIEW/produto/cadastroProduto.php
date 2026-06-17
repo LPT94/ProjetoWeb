@@ -18,10 +18,9 @@ $listaCategoria = $dalCategoria->select();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cadastro de Produto</title>
+    <title>Cadastro de Produt</title>
 
     <link rel="stylesheet" href="/ProjetoWeb/assets/css/style.css">
-
 </head>
 
 <body>
@@ -186,8 +185,6 @@ $listaCategoria = $dalCategoria->select();
     </form>
 
 </div>
-</body>
-
 <script>
 
 function validarFormulario(){
@@ -244,3 +241,6 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 </script>
+</body>
+</html>
+

@@ -67,10 +67,6 @@
     </form>
 
 </div>
-
-</body>
-</html>
-
 <script> <!-- script para não permitir inserir espaços vazios -->
     function validarFormulario() {
 
@@ -102,3 +98,6 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 </script>
+</body>
+</html>
+
