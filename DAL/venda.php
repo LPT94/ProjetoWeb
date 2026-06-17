@@ -25,6 +25,23 @@
             return $listaVenda;
         }
 
+        public function selectById(int $id){
+
+            $sql = "Select * from venda where id=?";
+            $con = Conexao::conectar();
+            $query = $con->prepare($sql);
+            $query->execute(array($id));
+            $linha = $query->fetch(\PDO::FETCH_ASSOC);
+            Conexao::desconectar();
+
+            $venda = new \MODEL\Venda();
+            $venda->setId($linha['id']);
+            $venda->setValor($linha['valor']);
+            $venda->setData_venda($linha['data_venda']);
+
+            return $venda;
+        }
+
         public function insert(\MODEL\Venda $venda,  array $produtos, array $quantidades, array $valores){
             try{
                 

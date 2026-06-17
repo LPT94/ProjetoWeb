@@ -1,12 +1,23 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/venda.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/venda.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/item_venda.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/item_venda.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
 
-$dalProduto = new \DAL\Produto();
+    $id = $_GET['id'];
 
-$listaProduto = $dalProduto->select();
+    $dalProduto = new \DAL\Produto();
+    $listaProduto = $dalProduto->select();
 
+    $dalVenda = new \DAL\Venda();
+    $dalItemVenda = new \DAL\ItemVenda();
+
+    $venda = $dalVenda->selectById($id);
+
+    $itensVenda = $dalItemVenda->selectVendas($id);
 ?>
 
 <!DOCTYPE html>
@@ -14,24 +25,22 @@ $listaProduto = $dalProduto->select();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de vendas</title>
+    <title>Editar venda</title>
     <link rel="stylesheet" href="/ProjetoWeb/assets/css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Cadastro de Vendas</h1>
+        <h1>Editar Venda</h1>
 
-        <form
-        action="opCadastroVenda.php"
-        method="POST"
-        onsubmit="return validarFormulario()"
+        <form action="opEditarVenda.php"
+               method="POST"
         >
             <div class="grupo-form"> 
                 <label>Data da Venda</label> 
                 <input type="date" 
                     name="data_venda" 
                     id="data_venda"
-                    value="<?php echo date('Y-m-d'); ?>" 
+                    value="<?php echo $venda->getData_venda(); ?>" 
                     required > 
             </div> 
             <div class="grupo-form"> 
@@ -55,7 +64,8 @@ $listaProduto = $dalProduto->select();
                     id="qtde"
                     min="1" 
                     value="1" > 
-            </div> 
+            </div>
+
             <div class="button-venda">
 
                 <button type="button" 
@@ -66,15 +76,14 @@ $listaProduto = $dalProduto->select();
 
                 <button type="submit"
                         class="btn-salvar">
-                        Salvar Venda
+                        Editar Venda
                 </button>
                 <a  href="listaVenda.php" class="btn-cancelar">
-                    Cancelar Venda
+                    Voltar
                 </a>
             </div>
 
             <table id="tabelaItens">
-
                 <thead>
                     <tr>
                         <th>Produto</th>
@@ -86,25 +95,87 @@ $listaProduto = $dalProduto->select();
                 </thead>
 
                 <tbody id="corpoTabela">
+                    <?php $total = 0;
+                        foreach ($itensVenda as $item) {
 
+                            $produto = null;
+                            foreach ($listaProduto as $p) {
+                                if ($p->getId() == $item->getId_produto()) {
+                                    $produto = $p;
+                                    break;
+                                }
+                            }
+
+                            $subtotal = $item->getQtde() * $p->getPreco();
+                            $total += $subtotal;
+                        ?>
+                        <tr>
+                            <td><?= $produto->getNome() ?></td>
+                            <td><?= $item->getQtde() ?></td>
+                            <td>R$ <?= number_format($p->getPreco(), 2) ?></td>
+                            <td>R$ <?= number_format($subtotal, 2) ?></td>
+                            <td>
+                                <button type="button"
+                                        class="btn-cancelar"
+                                        onclick="removerItem(this, '<?= $item->getId_produto() ?>', <?= $subtotal ?>)">
+                                    Remover
+                                </button>
+                            </td>
+                        </tr>
+                     <?php } ?>
                 </tbody>
 
             </table>
-            <div id="hiddenItens"></div>
+            <div id="hiddenItens">
+                <?php foreach($itensVenda as $item){
+                    $produto = null;
+
+                    foreach($listaProduto as $p){
+                        if($p->getId() == $item->getId_produto()){
+                            $produto = $p;
+                            break;
+                        }
+                    }
+                ?>
+
+                    <input
+                        type="hidden"
+                        name="id_produto[]"
+                        value="<?= $item->getId_produto() ?>"
+                        id="produto_<?= $item->getId_produto() ?>"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="qtde[]"
+                        value="<?= $item->getQtde() ?>"
+                        id="qtde_<?= $item->getId_produto() ?>"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="valor[]"
+                        value="<?= $produto->getPreco() ?>"
+                        id="valor_<?= $item->getId_produto() ?>"
+                    >
+
+                <?php } ?>
+            </div>
         
             <h2 id="totalVenda">Total: R$ 0,00</h2>
-        </form>
-    <tbody>
-
-    </tbody>
-    
-    
+        
+    </form>
     </div>
 
 <script>
 
-    let total = 0;
-    let produtosInseridos = [];
+    let total = <?= $total ?>;
+    
+    document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
+    let produtosInseridos = [<?php foreach ($itensVenda as $item) {
+                                        echo "'" . $item->getId_produto() . "',";
+                                    } 
+                            ?>];
 
     function adicionarItem(){
 
@@ -215,4 +286,3 @@ $listaProduto = $dalProduto->select();
 
 </body>
 </html>
-
