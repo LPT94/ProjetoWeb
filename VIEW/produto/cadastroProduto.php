@@ -1,12 +1,12 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
 
-use DAL\Categoria;
+    use DAL\Categoria;
 
-$dalCategoria = new Categoria();
+    $dalCategoria = new Categoria();
 
-$listaCategoria = $dalCategoria->select();
+    $listaCategoria = $dalCategoria->select();
 
 ?>
 

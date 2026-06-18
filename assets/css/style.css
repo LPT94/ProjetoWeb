@@ -190,3 +190,7 @@ select{
     cursor: pointer;
     font-size: 15px;
 }
+
+.input-medio{
+    width: 40%;
+}

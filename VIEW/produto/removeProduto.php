@@ -3,7 +3,12 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
 
-    $id = $_GET['id'];
+    //validação id
+    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    if ($id === false || $id === null) {
+        header("location: listaVenda.php");
+        exit;
+    }
 
     $dalProduto = new \DAL\Produto();
     $dalCategoria = new \DAL\Categoria();

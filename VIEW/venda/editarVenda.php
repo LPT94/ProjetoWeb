@@ -7,7 +7,12 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
 
-    $id = $_GET['id'];
+    //validação id
+    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    if ($id === false || $id === null) {
+        header("location: listaVenda.php");
+        exit;
+    }
 
     $dalProduto = new \DAL\Produto();
     $listaProduto = $dalProduto->select();
@@ -106,13 +111,13 @@
                                 }
                             }
 
-                            $subtotal = $item->getQtde() * $p->getPreco();
+                            $subtotal = $item->getQtde() * $produto->getPreco();
                             $total += $subtotal;
                         ?>
                         <tr>
                             <td><?= $produto->getNome() ?></td>
                             <td><?= $item->getQtde() ?></td>
-                            <td>R$ <?= number_format($p->getPreco(), 2) ?></td>
+                            <td>R$ <?= number_format($produto->getPreco(), 2) ?></td>
                             <td>R$ <?= number_format($subtotal, 2) ?></td>
                             <td>
                                 <button type="button"

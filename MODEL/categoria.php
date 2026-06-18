@@ -2,7 +2,6 @@
    namespace MODEL; 
 
    class Categoria{
-
         private ?int $id;
         private ?string $descricao;
 

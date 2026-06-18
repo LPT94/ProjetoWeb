@@ -1,9 +1,14 @@
 <?php
 
-    $id = $_GET['id'];
-
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/categoria.php";
+
+    //validação id
+    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    if ($id === false || $id === null) {
+        header("location: listaVenda.php");
+        exit;
+    }
 
     use DAL\Categoria;
 
