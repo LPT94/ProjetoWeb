@@ -1,11 +1,11 @@
 <?php
 
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/categoria.php";
@@ -26,64 +26,59 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remover Categoria</title>
     <link rel="stylesheet" href="/ProjetoWeb/assets/css/style.css">
 </head>
+
 <body>
     <div class=container>
 
         <h1>Remover Categoria</h1>
-        
+
         <form action="opRemoveCategoria.php" method="POST" onsubmit="return confirmarFormulario()">
-            
+
             <div class="grupo-form">
-                
+
                 <label>ID</label>
 
-                    <input class="input-reduzido"
-                        type="number"
-                        name="id"
-                        value="<?php echo $categoria->getId(); ?>"
-                        readonly
-                        >
+                <input class="input-reduzido"
+                    type="number"
+                    name="id"
+                    value="<?php echo $categoria->getId(); ?>"
+                    readonly>
             </div>
 
             <div class="grupo-form">
 
                 <label>Descricao</label>
-                    <input class="input-maior"
-                            type="text"
-                            value="<?php echo $categoria->getDescricao(); ?>"
-                            readonly
-                            >
+                <input class="input-maior"
+                    type="text"
+                    value="<?php echo $categoria->getDescricao(); ?>"
+                    readonly>
             </div>
 
             <div class="botoes">
                 <button type="submit"
-                class="btn-salvar">
-                Excluir
+                    class="btn-salvar">
+                    Excluir
                 </button>
                 <a href="listaCategoria.php" class="btn-cancelar">
-                Cancelar
+                    Cancelar
                 </a>
 
             </div>
 
         </form>
 
-    </div>    
-<script>
-function confirmarFormulario(){
-
-    return confirm(
-        "Tem certeza que deseja excluir esta categoria?"
-    );
-
-}
-</script>
+    </div>
+    <script>
+        function confirmarFormulario() {
+            return confirm("Tem certeza que deseja excluir esta categoria?");
+        }
+    </script>
 </body>
 </html>
-

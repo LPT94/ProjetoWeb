@@ -1,11 +1,10 @@
 <?php
-
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/venda.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/venda.php";
@@ -34,63 +33,64 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar venda</title>
     <link rel="stylesheet" href="/ProjetoWeb/assets/css/style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Editar Venda</h1>
 
         <form action="opEditarVenda.php"
-               method="POST"
-        >
-            <div class="grupo-form"> 
-                <label>Data da Venda</label> 
-                <input type="date" 
-                    name="data_venda" 
+            method="POST">
+            <div class="grupo-form">
+                <label>Data da Venda</label>
+                <input type="date"
+                    name="data_venda"
                     id="data_venda"
-                    value="<?php echo $venda->getData_venda(); ?>" 
-                    required > 
-            </div> 
-            <div class="grupo-form"> 
-                <label>Produto</label> 
-                <select id="produto"> 
-                    <option value=""> Selecione um produto </option> 
-                        <?php foreach($listaProduto as $produto){ 
-                            if($produto->getQtde_estoque() > 0){?> 
-                        <option value="<?php echo $produto->getId(); ?>" 
-                                data-preco="<?php echo $produto->getPreco(); ?>" 
-                                data-estoque="<?php echo $produto->getQtde_estoque(); ?>"> 
-                            <?php echo $produto->getNome(); ?> </option> 
-                            <?php }
-                            }?>
-                        
-                </select> 
-            </div> 
-            <div class="grupo-form"> 
-                <label>Quantidade</label> 
-                <input type="number" 
+                    value="<?php echo $venda->getData_venda(); ?>"
+                    required>
+            </div>
+            <div class="grupo-form">
+                <label>Produto</label>
+                <select id="produto">
+                    <option value=""> Selecione um produto </option>
+                    <?php foreach ($listaProduto as $produto) {
+                        if ($produto->getQtde_estoque() > 0) { ?>
+                            <option value="<?php echo $produto->getId(); ?>"
+                                data-preco="<?php echo $produto->getPreco(); ?>"
+                                data-estoque="<?php echo $produto->getQtde_estoque(); ?>">
+                                <?php echo $produto->getNome(); ?> </option>
+                    <?php }
+                    } ?>
+
+                </select>
+            </div>
+            <div class="grupo-form">
+                <label>Quantidade</label>
+                <input type="number"
                     id="qtde"
-                    min="1" 
-                    value="1" > 
+                    min="1"
+                    value="1">
             </div>
 
             <div class="button-venda">
 
-                <button type="button" 
-                        class="button-item" 
-                        onclick="adicionarItem()" > 
-                        Adicionar Item 
+                <button type="button"
+                    class="button-item"
+                    onclick="adicionarItem()">
+                    Adicionar Item
                 </button>
 
                 <button type="submit"
-                        class="btn-salvar">
-                        Editar Venda
+                    class="btn-salvar">
+                    Editar Venda
                 </button>
-                <a  href="listaVenda.php" class="btn-cancelar">
+                <a href="listaVenda.php" class="btn-cancelar">
                     Voltar
                 </a>
             </div>
@@ -108,19 +108,19 @@
 
                 <tbody id="corpoTabela">
                     <?php $total = 0;
-                        foreach ($itensVenda as $item) {
+                    foreach ($itensVenda as $item) {
 
-                            $produto = null;
-                            foreach ($listaProduto as $p) {
-                                if ($p->getId() == $item->getId_produto()) {
-                                    $produto = $p;
-                                    break;
-                                }
+                        $produto = null;
+                        foreach ($listaProduto as $p) {
+                            if ($p->getId() == $item->getId_produto()) {
+                                $produto = $p;
+                                break;
                             }
+                        }
 
-                            $subtotal = $item->getQtde() * $produto->getPreco();
-                            $total += $subtotal;
-                        ?>
+                        $subtotal = $item->getQtde() * $produto->getPreco();
+                        $total += $subtotal;
+                    ?>
                         <tr>
                             <td><?= $produto->getNome() ?></td>
                             <td><?= $item->getQtde() ?></td>
@@ -128,22 +128,22 @@
                             <td>R$ <?= number_format($subtotal, 2) ?></td>
                             <td>
                                 <button type="button"
-                                        class="btn-cancelar"
-                                        onclick="removerItem(this, '<?= $item->getId_produto() ?>', <?= $subtotal ?>)">
+                                    class="btn-cancelar"
+                                    onclick="removerItem(this, '<?= $item->getId_produto() ?>', <?= $subtotal ?>)">
                                     Remover
                                 </button>
                             </td>
                         </tr>
-                     <?php } ?>
+                    <?php } ?>
                 </tbody>
 
             </table>
             <div id="hiddenItens">
-                <?php foreach($itensVenda as $item){
+                <?php foreach ($itensVenda as $item) {
                     $produto = null;
 
-                    foreach($listaProduto as $p){
-                        if($p->getId() == $item->getId_produto()){
+                    foreach ($listaProduto as $p) {
+                        if ($p->getId() == $item->getId_produto()) {
                             $produto = $p;
                             break;
                         }
@@ -153,76 +153,71 @@
                         type="hidden"
                         name="id_venda"
                         value="<?= $venda->getId() ?>"
-                        id="id_venda"
-                    >
+                        id="id_venda">
 
                     <input
                         type="hidden"
                         name="id_produto[]"
                         value="<?= $item->getId_produto() ?>"
-                        id="produto_<?= $item->getId_produto() ?>"
-                    >
+                        id="produto_<?= $item->getId_produto() ?>">
 
                     <input
                         type="hidden"
                         name="qtde[]"
                         value="<?= $item->getQtde() ?>"
-                        id="qtde_<?= $item->getId_produto() ?>"
-                    >
+                        id="qtde_<?= $item->getId_produto() ?>">
 
                     <input
                         type="hidden"
                         name="valor[]"
                         value="<?= $produto->getPreco() ?>"
-                        id="valor_<?= $item->getId_produto() ?>"
-                    >
+                        id="valor_<?= $item->getId_produto() ?>">
 
                 <?php } ?>
             </div>
-        
+
             <h2 id="totalVenda">Total: R$ 0,00</h2>
-        
-    </form>
+
+        </form>
     </div>
 
-<script>
+    <script>
+        let total = <?= $total ?>;
 
-    let total = <?= $total ?>;
-    
-    document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
-    let produtosInseridos = [<?php foreach ($itensVenda as $item) {
+        document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
+        let produtosInseridos = [<?php foreach ($itensVenda as $item) {
                                         echo "'" . $item->getId_produto() . "',";
-                                    } 
-                            ?>];
+                                    }
+                                    ?>];
 
-    function adicionarItem(){
+        function adicionarItem() {
 
-        let select = document.getElementById("produto");
-        let produtoId = select.value;
-        
-        if(produtoId === ""){
-            alert("Selecione um produto.");
-            return;
-        }
-        if(produtosInseridos.includes(produtoId)){
-            alert("Este produto já foi adicionado.");
-            return;
-        }
-        
-        let produtoNome = select.options[select.selectedIndex].text;
-        let preco = parseFloat(select.options[select.selectedIndex].dataset.preco);
-        let estoque = parseFloat(select.options[select.selectedIndex].dataset.estoque);
-        let qtde = parseFloat(document.getElementById("qtde").value);
+            let select = document.getElementById("produto");
+            let produtoId = select.value;
 
-        if(qtde > estoque){
-            alert( "Quantidade maior que o estoque disponível.\n" + "Estoque atual: " + estoque);
-            return;
-        }
+            if (produtoId === "") {
+                alert("Selecione um produto.");
+                return;
+            }
+            if (produtosInseridos.includes(produtoId)) {
+                alert("Este produto já foi adicionado.");
+                return;
+            }
 
-        let subtotal = preco * qtde;
-        let tabela = document.getElementById("corpoTabela");
+            let produtoNome = select.options[select.selectedIndex].text;
+            let preco = parseFloat(select.options[select.selectedIndex].dataset.preco);
+            let estoque = parseFloat(select.options[select.selectedIndex].dataset.estoque);
+            let qtde = parseFloat(document.getElementById("qtde").value);
 
-        tabela.innerHTML += `
+            if (qtde > estoque) {
+                alert("Quantidade maior que o estoque disponível.\n" + "Estoque atual: " + estoque);
+                return;
+            }
+
+            let subtotal = preco * qtde;
+            let tabela = document.getElementById("corpoTabela");
+
+            tabela.innerHTML += `
             <tr>
                 <td>${produtoNome}</td>
                 <td>${qtde}</td>
@@ -238,11 +233,11 @@
             </tr>
         `;
 
-        produtosInseridos.push(produtoId);
+            produtosInseridos.push(produtoId);
 
-        let hiddenContainer = document.getElementById("hiddenItens");
+            let hiddenContainer = document.getElementById("hiddenItens");
 
-        hiddenContainer.innerHTML += `
+            hiddenContainer.innerHTML += `
             <input
                 type="hidden"
                 name="id_produto[]"
@@ -265,42 +260,42 @@
             >
         `;
 
-        total += subtotal;
-        document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
-    }
-
-    function removerItem(botao, produtoId, subtotal){
-
-        let linha = botao.parentNode.parentNode;
-        linha.remove();
-
-        total -= subtotal;
-
-        document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
-
-        let indice = produtosInseridos.indexOf(produtoId);
-        if(indice !== -1){
-            produtosInseridos.splice(indice, 1);
+            total += subtotal;
+            document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
         }
 
-        let hProduto = document.getElementById("produto_" + produtoId);
-        if(hProduto){
-            hProduto.remove();
+        function removerItem(botao, produtoId, subtotal) {
+
+            let linha = botao.parentNode.parentNode;
+            linha.remove();
+
+            total -= subtotal;
+
+            document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
+
+            let indice = produtosInseridos.indexOf(produtoId);
+            if (indice !== -1) {
+                produtosInseridos.splice(indice, 1);
+            }
+
+            let hProduto = document.getElementById("produto_" + produtoId);
+            if (hProduto) {
+                hProduto.remove();
+            }
+
+            let hQtde = document.getElementById("qtde_" + produtoId);
+            if (hQtde) {
+                hQtde.remove();
+            }
+
+            let hValor = document.getElementById("valor_" + produtoId);
+            if (hValor) {
+                hValor.remove();
+            }
+
         }
-
-        let hQtde = document.getElementById("qtde_" + produtoId);
-        if(hQtde){
-            hQtde.remove();
-        }
-
-        let hValor = document.getElementById("valor_" + produtoId);
-        if(hValor){
-            hValor.remove();
-        }
-
-    }
-
-</script>
+    </script>
 
 </body>
+
 </html>

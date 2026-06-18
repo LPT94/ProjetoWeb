@@ -1,7 +1,7 @@
 <?php
 
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
@@ -40,104 +40,92 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>Editar Categoria</h1>
+        <h1>Editar Categoria</h1>
 
-    <form
-        action="opEditarCategoria.php"
-        method="POST"
-        onsubmit="return validarFormulario()"
-    >
+        <form
+            action="opEditarCategoria.php"
+            method="POST"
+            onsubmit="return validarFormulario()">
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label>ID</label>
+                <label>ID</label>
 
-            <input
-                class = "input-reduzido"
-                type="number"
-                name="id"
-                value="<?php echo $categoria->getId(); ?>"
-                readonly
-            >
+                <input
+                    class="input-reduzido"
+                    type="number"
+                    name="id"
+                    value="<?php echo $categoria->getId(); ?>"
+                    readonly>
 
-        </div>
+            </div>
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label for="descricao">
-                Descrição
-            </label>
+                <label for="descricao">
+                    Descrição
+                </label>
 
-            <input
-                class="input-maior"
-                type="text"
-                id="descricao"
-                name="descricao"
-                maxlength="100"
-                value="<?php echo $categoria->getDescricao(); ?>"
-                required
-            >
+                <input
+                    class="input-maior"
+                    type="text"
+                    id="descricao"
+                    name="descricao"
+                    maxlength="100"
+                    value="<?php echo $categoria->getDescricao(); ?>"
+                    required>
 
-            <small id="contador">
-                <?php echo strlen($categoria->getDescricao()); ?> / 100 caracteres
-            </small>
+                <small id="contador">
+                    <?php echo strlen($categoria->getDescricao()); ?> / 100 caracteres
+                </small>
 
-        </div>
+            </div>
 
-        <div class="botoes">
+            <div class="botoes">
 
-            <button
-                type="submit"
-                class="btn-salvar"
-            >Salvar Alterações
-            </button>
+                <button
+                    type="submit"
+                    class="btn-salvar">Salvar Alterações
+                </button>
 
-            <a
-                href="listaCategoria.php"
-                class="btn-cancelar"
-            >
-                Voltar
-            </a>
+                <a
+                    href="listaCategoria.php"
+                    class="btn-cancelar">
+                    Voltar
+                </a>
 
-        </div>
+            </div>
 
-    </form>
+        </form>
 
-</div>
+    </div>
 
-<script>
+    <script>
         <!-- script para não permitir inserir espaços vazios -->
-function validarFormulario(){
+        function validarFormulario(){
 
-    let descricao =
-        document.getElementById("descricao").value.trim();
+            let descricao =
+                document.getElementById("descricao").value.trim();
 
-    if(descricao === ""){
+            if(descricao === ""){
+                alert("Informe a descrição da categoria.");
+                return false;
+            }
+            return true;
+        }
 
-        alert("Informe a descrição da categoria.");
+        const descricao =  document.getElementById("descricao");
+        const contador = document.getElementById("contador");
 
-        return false;
-    }
+        descricao.addEventListener("input", function(){
 
-    return true;
-}
-        <!-- script para contar caracteres no espaço descricao -->
-const descricao =
-    document.getElementById("descricao");
+            contador.textContent =
+                descricao.value.length + " / 100 caracteres";
+        });
 
-const contador =
-    document.getElementById("contador");
-
-descricao.addEventListener("input", function(){
-
-    contador.textContent =
-        descricao.value.length + " / 100 caracteres";
-
-});
-
-</script>
+    </script>
 
 </body>
 

@@ -1,15 +1,15 @@
 <?php
 
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
-    
+
     $dalProduto = new \DAL\Produto();
 
     $listaProduto = $dalProduto->select();
@@ -18,64 +18,65 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de vendas</title>
     <link rel="stylesheet" href="/ProjetoWeb/assets/css/style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Cadastro de Vendas</h1>
 
         <form
-        action="opCadastroVenda.php"
-        method="POST"
-        onsubmit="return validarFormulario()"
-        >
-            <div class="grupo-form"> 
-                <label>Data da Venda</label> 
-                <input type="date" 
-                    name="data_venda" 
+            action="opCadastroVenda.php"
+            method="POST"
+            onsubmit="return validarFormulario()">
+            <div class="grupo-form">
+                <label>Data da Venda</label>
+                <input type="date"
+                    name="data_venda"
                     id="data_venda"
-                    value="<?php echo date('Y-m-d'); ?>" 
-                    required > 
-            </div> 
-            <div class="grupo-form"> 
-                <label>Produto</label> 
-                <select id="produto"> 
-                    <option value=""> Selecione um produto </option> 
-                        <?php foreach($listaProduto as $produto){ 
-                            if($produto->getQtde_estoque() > 0){?> 
-                        <option value="<?php echo $produto->getId(); ?>" 
-                                data-preco="<?php echo $produto->getPreco(); ?>" 
-                                data-estoque="<?php echo $produto->getQtde_estoque(); ?>"> 
-                            <?php echo $produto->getNome(); ?> </option> 
-                            <?php }
-                            }?>
-                        
-                </select> 
-            </div> 
-            <div class="grupo-form"> 
-                <label>Quantidade</label> 
-                <input type="number" 
+                    value="<?php echo date('Y-m-d'); ?>"
+                    required>
+            </div>
+            <div class="grupo-form">
+                <label>Produto</label>
+                <select id="produto">
+                    <option value=""> Selecione um produto </option>
+                    <?php foreach ($listaProduto as $produto) {
+                        if ($produto->getQtde_estoque() > 0) { ?>
+                            <option value="<?php echo $produto->getId(); ?>"
+                                data-preco="<?php echo $produto->getPreco(); ?>"
+                                data-estoque="<?php echo $produto->getQtde_estoque(); ?>">
+                                <?php echo $produto->getNome(); ?> </option>
+                    <?php }
+                    } ?>
+
+                </select>
+            </div>
+            <div class="grupo-form">
+                <label>Quantidade</label>
+                <input type="number"
                     id="qtde"
-                    min="1" 
-                    value="1" > 
-            </div> 
+                    min="1"
+                    value="1">
+            </div>
             <div class="button-venda">
 
-                <button type="button" 
-                        class="button-item" 
-                        onclick="adicionarItem()" > 
-                        Adicionar Item 
+                <button type="button"
+                    class="button-item"
+                    onclick="adicionarItem()">
+                    Adicionar Item
                 </button>
 
                 <button type="submit"
-                        class="btn-salvar">
-                        Salvar Venda
+                    class="btn-salvar">
+                    Salvar Venda
                 </button>
-                <a  href="listaVenda.php" class="btn-cancelar">
+                <a href="listaVenda.php" class="btn-cancelar">
                     Cancelar Venda
                 </a>
             </div>
@@ -98,49 +99,48 @@
 
             </table>
             <div id="hiddenItens"></div>
-        
+
             <h2 id="totalVenda">Total: R$ 0,00</h2>
         </form>
-    <tbody>
+        <tbody>
 
-    </tbody>
-    
-    
+        </tbody>
+
+
     </div>
 
-<script>
+    <script>
+        let total = 0;
+        let produtosInseridos = [];
 
-    let total = 0;
-    let produtosInseridos = [];
+        function adicionarItem() {
 
-    function adicionarItem(){
+            let select = document.getElementById("produto");
+            let produtoId = select.value;
 
-        let select = document.getElementById("produto");
-        let produtoId = select.value;
-        
-        if(produtoId === ""){
-            alert("Selecione um produto.");
-            return;
-        }
-        if(produtosInseridos.includes(produtoId)){
-            alert("Este produto já foi adicionado.");
-            return;
-        }
-        
-        let produtoNome = select.options[select.selectedIndex].text;
-        let preco = parseFloat(select.options[select.selectedIndex].dataset.preco);
-        let estoque = parseFloat(select.options[select.selectedIndex].dataset.estoque);
-        let qtde = parseFloat(document.getElementById("qtde").value);
+            if (produtoId === "") {
+                alert("Selecione um produto.");
+                return;
+            }
+            if (produtosInseridos.includes(produtoId)) {
+                alert("Este produto já foi adicionado.");
+                return;
+            }
 
-        if(qtde > estoque){
-            alert( "Quantidade maior que o estoque disponível.\n" + "Estoque atual: " + estoque);
-            return;
-        }
+            let produtoNome = select.options[select.selectedIndex].text;
+            let preco = parseFloat(select.options[select.selectedIndex].dataset.preco);
+            let estoque = parseFloat(select.options[select.selectedIndex].dataset.estoque);
+            let qtde = parseFloat(document.getElementById("qtde").value);
 
-        let subtotal = preco * qtde;
-        let tabela = document.getElementById("corpoTabela");
+            if (qtde > estoque) {
+                alert("Quantidade maior que o estoque disponível.\n" + "Estoque atual: " + estoque);
+                return;
+            }
 
-        tabela.innerHTML += `
+            let subtotal = preco * qtde;
+            let tabela = document.getElementById("corpoTabela");
+
+            tabela.innerHTML += `
             <tr>
                 <td>${produtoNome}</td>
                 <td>${qtde}</td>
@@ -156,11 +156,11 @@
             </tr>
         `;
 
-        produtosInseridos.push(produtoId);
+            produtosInseridos.push(produtoId);
 
-        let hiddenContainer = document.getElementById("hiddenItens");
+            let hiddenContainer = document.getElementById("hiddenItens");
 
-        hiddenContainer.innerHTML += `
+            hiddenContainer.innerHTML += `
             <input
                 type="hidden"
                 name="id_produto[]"
@@ -183,43 +183,42 @@
             >
         `;
 
-        total += subtotal;
-        document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
-    }
-
-    function removerItem(botao, produtoId, subtotal){
-
-        let linha = botao.parentNode.parentNode;
-        linha.remove();
-
-        total -= subtotal;
-
-        document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
-
-        let indice = produtosInseridos.indexOf(produtoId);
-        if(indice !== -1){
-            produtosInseridos.splice(indice, 1);
+            total += subtotal;
+            document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
         }
 
-        let hProduto = document.getElementById("produto_" + produtoId);
-        if(hProduto){
-            hProduto.remove();
+        function removerItem(botao, produtoId, subtotal) {
+
+            let linha = botao.parentNode.parentNode;
+            linha.remove();
+
+            total -= subtotal;
+
+            document.getElementById("totalVenda").textContent = "Total: R$ " + total.toFixed(2);
+
+            let indice = produtosInseridos.indexOf(produtoId);
+            if (indice !== -1) {
+                produtosInseridos.splice(indice, 1);
+            }
+
+            let hProduto = document.getElementById("produto_" + produtoId);
+            if (hProduto) {
+                hProduto.remove();
+            }
+
+            let hQtde = document.getElementById("qtde_" + produtoId);
+            if (hQtde) {
+                hQtde.remove();
+            }
+
+            let hValor = document.getElementById("valor_" + produtoId);
+            if (hValor) {
+                hValor.remove();
+            }
+
         }
-
-        let hQtde = document.getElementById("qtde_" + produtoId);
-        if(hQtde){
-            hQtde.remove();
-        }
-
-        let hValor = document.getElementById("valor_" + produtoId);
-        if(hValor){
-            hValor.remove();
-        }
-
-    }
-
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>

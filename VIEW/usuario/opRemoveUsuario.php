@@ -1,26 +1,26 @@
 <?php
 
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
 
-    if($_SESSION['tipo'] != "admin"){
+    if ($_SESSION['tipo'] != "admin") {
         header("location: /ProjetoWeb/VIEW/home.php");
         exit;
     }
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/usuario.php";
 
-   //---------validações
-    if($_SERVER['REQUEST_METHOD'] != 'POST'){
+    //---------validações
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         header("location: removeUsuario.php");
         exit;
     }
-   //validação login
-   $login = $_POST['login'];
-   if (isset($login) && $login == '') {
+    //validação login
+    $login = $_POST['login'];
+    if (isset($login) && $login == '') {
         header("location: removeUsuario.php");
         exit;
     }
@@ -28,7 +28,7 @@
     $dalUsuario = new \DAL\Usuario();
     $resultado = $dalUsuario->delete($login);
 
-    switch($resultado){
+    switch ($resultado) {
         case "sucesso":
             header("location: operacaoSucesso.html");
             break;
@@ -36,5 +36,4 @@
             header("location: erroGenerico2.html");
             break;
     }
-
 ?>

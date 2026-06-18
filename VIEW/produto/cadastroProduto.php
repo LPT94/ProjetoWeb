@@ -1,7 +1,7 @@
 <?php
 
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
@@ -32,222 +32,209 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>Cadastro de Produto</h1>
+        <h1>Cadastro de Produto</h1>
 
-    <form
-        action="opCadastroProduto.php"
-        method="POST"
-        onsubmit="return validarFormulario()"
-    >
+        <form
+            action="opCadastroProduto.php"
+            method="POST"
+            onsubmit="return validarFormulario()">
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label>ID</label>
+                <label>ID</label>
 
-            <input
-                class="input-reduzido"
-                type="number"
-                id="id"
-                name="id"
-                min="1"
-                max="99999"
-                required
-            >
+                <input
+                    class="input-reduzido"
+                    type="number"
+                    id="id"
+                    name="id"
+                    min="1"
+                    max="99999"
+                    required>
 
-        </div>
+            </div>
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label>Nome</label>
+                <label>Nome</label>
 
-            <input
-                class="input-maior"
-                type="text"
-                id="nome"
-                name="nome"
-                maxlength="50"
-                required
-            >
-            <small id="contador0">
-                0 / 50 caracteres
-            </small>
-        </div>
+                <input
+                    class="input-maior"
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    maxlength="50"
+                    required>
+                <small id="contador0">
+                    0 / 50 caracteres
+                </small>
+            </div>
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label>Descrição</label>
+                <label>Descrição</label>
 
-            <input
-                class="input-maior"
-                type="text"
-                id="descricao"
-                name="descricao"
-                maxlength="100"
-                required
-            >
+                <input
+                    class="input-maior"
+                    type="text"
+                    id="descricao"
+                    name="descricao"
+                    maxlength="100"
+                    required>
 
-            <small id="contador1">
-                0 / 100 caracteres
-            </small>
+                <small id="contador1">
+                    0 / 100 caracteres
+                </small>
 
-        </div>
+            </div>
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label>Categoria</label>
+                <label>Categoria</label>
 
-            <select
-                class="input-maior"
-                id="id_categoria"
-                name="id_categoria"
-                required
-            >
+                <select
+                    class="input-maior"
+                    id="id_categoria"
+                    name="id_categoria"
+                    required>
 
-                <option value="">
-                    Selecione uma categoria
-                </option>
-
-                <?php foreach($listaCategoria as $categoria){ ?>
-
-                    <option value="<?php echo $categoria->getId(); ?>">
-
-                        <?php echo $categoria->getDescricao(); ?>
-
+                    <option value="">
+                        Selecione uma categoria
                     </option>
 
-                <?php } ?>
+                    <?php foreach ($listaCategoria as $categoria) { ?>
 
-            </select>
+                        <option value="<?php echo $categoria->getId(); ?>">
 
-        </div>
+                            <?php echo $categoria->getDescricao(); ?>
 
-        <div class="grupo-form">
+                        </option>
 
-            <label>Preço</label>
+                    <?php } ?>
 
-            <input
-                class="input-reduzido"
-                type="number"
-                id="preco"
-                name="preco"
-                step="0.01"
-                min="0.5"
-                required
-            >
+                </select>
 
-        </div>
+            </div>
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label>Quantidade em Estoque</label>
+                <label>Preço</label>
 
-            <input
-                class="input-reduzido"
-                type="number"
-                id="qtde_estoque"
-                name="qtde_estoque"
-                min="0"
-                required
-            >
+                <input
+                    class="input-reduzido"
+                    type="number"
+                    id="preco"
+                    name="preco"
+                    step="0.01"
+                    min="0.5"
+                    required>
 
-        </div>
+            </div>
 
-        <div class="grupo-form">
+            <div class="grupo-form">
 
-            <label>Fabricante</label>
+                <label>Quantidade em Estoque</label>
 
-            <input
-                class="input-maior"
-                type="text"
-                id="fabricante"
-                name="fabricante"
-                maxlength="50"
-                required
-            >
-            <small id="contador2">
-                0 / 50 caracteres
-            </small>
-        </div>
+                <input
+                    class="input-reduzido"
+                    type="number"
+                    id="qtde_estoque"
+                    name="qtde_estoque"
+                    min="0"
+                    required>
 
-        <div class="botoes">
+            </div>
 
-            <button
-                type="submit"
-                class="btn-salvar"
-            >
-                Salvar
-            </button>
+            <div class="grupo-form">
 
-            <a
-                href="listaProduto.php"
-                class="btn-cancelar"
-            >
-                Cancelar
-            </a>
+                <label>Fabricante</label>
 
-        </div>
+                <input
+                    class="input-maior"
+                    type="text"
+                    id="fabricante"
+                    name="fabricante"
+                    maxlength="50"
+                    required>
+                <small id="contador2">
+                    0 / 50 caracteres
+                </small>
+            </div>
 
-    </form>
+            <div class="botoes">
 
-</div>
-<script>
+                <button
+                    type="submit"
+                    class="btn-salvar">
+                    Salvar
+                </button>
 
-function validarFormulario(){
+                <a
+                    href="listaProduto.php"
+                    class="btn-cancelar">
+                    Cancelar
+                </a>
 
-    let descricao = document.getElementById("descricao").value.trim();
-    let nome = document.getElementById("nome").value.trim();
-    let fabricante = document.getElementById("fabricante").value.trim();
+            </div>
 
-    if(nome == ""){
-        alert("informe um nome válido");
-        return false;
-    }
+        </form>
 
-    if(descricao == ""){
-        alert("Informe uma descrição válida.");
-        return false;
-    }
+    </div>
+    <script>
+        function validarFormulario(){
 
-     if(fabricante == ""){
-        alert("Informe um fabricante válido.");
-        return false;
-    }
+            let descricao = document.getElementById("descricao").value.trim();
+            let nome = document.getElementById("nome").value.trim();
+            let fabricante = document.getElementById("fabricante").value.trim();
 
-    return true;
-}
+            if(nome == ""){
+                alert("informe um nome válido");
+                return false;
+            }
 
-      <!-- script para contar elementos inseridos no formulario no campo id='descricao' -->
+            if(descricao == ""){
+                alert("Informe uma descrição válida.");
+                return false;
+            }
 
-document.addEventListener("DOMContentLoaded", function(){
+            if(fabricante == ""){
+                alert("Informe um fabricante válido.");
+                return false;
+            }
 
-    const nome = document.getElementById("nome");
-    const descricao = document.getElementById("descricao");
-    const fabricante = document.getElementById("fabricante");
+            return true;
+        }
 
-    const contador0 = document.getElementById("contador0");
-    const contador1 = document.getElementById("contador1");
-    const contador2 = document.getElementById("contador2");
-    
-    nome.addEventListener("input", function(){
-        contador0.textContent =
-            nome.value.length + " / 50 caracteres";
-    });
+            <!-- script para contar elementos inseridos no formulario no campo id='descricao' -->
 
-    descricao.addEventListener("input", function(){
-        contador1.textContent =
-            descricao.value.length + " / 100 caracteres";
-    });
+        document.addEventListener("DOMContentLoaded", function(){
 
-    fabricante.addEventListener("input", function(){
-        contador2.textContent =
-            fabricante.value.length + " / 50 caracteres";
-    });
+            const nome = document.getElementById("nome");
+            const descricao = document.getElementById("descricao");
+            const fabricante = document.getElementById("fabricante");
 
-});
+            const contador0 = document.getElementById("contador0");
+            const contador1 = document.getElementById("contador1");
+            const contador2 = document.getElementById("contador2");
+            
+            nome.addEventListener("input", function(){
+                contador0.textContent =
+                    nome.value.length + " / 50 caracteres";
+            });
 
-</script>
+            descricao.addEventListener("input", function(){
+                contador1.textContent =
+                    descricao.value.length + " / 100 caracteres";
+            });
+
+            fabricante.addEventListener("input", function(){
+                contador2.textContent =
+                    fabricante.value.length + " / 50 caracteres";
+            });
+
+        });
+    </script>
 </body>
 </html>
-

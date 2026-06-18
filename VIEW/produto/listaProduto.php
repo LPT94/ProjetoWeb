@@ -1,11 +1,11 @@
 <?php
 
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/categoria.php";
@@ -21,6 +21,7 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@
 
     <link rel="stylesheet" href="/ProjetoWeb/assets/css/style.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -42,18 +44,12 @@
 
         </div>
 
-        <?php if(count($listaProduto) == 0){
-
+        <?php if (count($listaProduto) == 0) {
             echo "<p>Nenhum produto cadastrado.</p>";
-
-        }else{
-
-            foreach($listaProduto as $produto){
-
-        ?>
+        } 
+        else {foreach ($listaProduto as $produto) {?>
 
             <div class="card-produto">
-
                 <h2>
                     Produto #<?php echo $produto->getId(); ?>
                 </h2>
@@ -65,7 +61,7 @@
 
                 <p>
                     <strong>Categoria:</strong>
-                    <?php echo $produto->getId_categoria();?>
+                    <?php echo $produto->getId_categoria(); ?>
                     <strong>Descrição:</strong>
                     <?php echo $dalCategoria->selectById($produto->getId_categoria())->getDescricao(); ?>
                 </p>
@@ -77,7 +73,7 @@
 
                 <p>
                     <strong>Preço:</strong>
-                    R$ <?php echo number_format($produto->getPreco(),2,",","."); ?>
+                    R$ <?php echo number_format($produto->getPreco(), 2, ",", "."); ?>
                 </p>
 
                 <p>
@@ -112,9 +108,9 @@
 
             }
         }
-
         ?>
 
     </div>
 </body>
+
 </html>

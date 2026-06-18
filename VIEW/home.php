@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
@@ -19,35 +19,36 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1 style="text-align:center">Sistema de Gestão Automotiva</h1>
-    <br>
-    <div class="menu-home">
+        <h1 style="text-align:center">Sistema de Gestão Automotiva</h1>
+        <br>
+        <div class="menu-home">
 
-        <a href="/ProjetoWeb/VIEW/categoria/listaCategoria.php" class="card-menu">
-            <h2>Categorias</h2>
-            <p>Gerenciar categorias de produtos</p>
-        </a>
+            <a href="/ProjetoWeb/VIEW/categoria/listaCategoria.php" class="card-menu">
+                <h2>Categorias</h2>
+                <p>Gerenciar categorias de produtos</p>
+            </a>
 
-        <a href="/ProjetoWeb/VIEW/produto/listaProduto.php" class="card-menu">
-            <h2>Produtos</h2>
-            <p>Consultar e controlar estoque</p>
-        </a>
+            <a href="/ProjetoWeb/VIEW/produto/listaProduto.php" class="card-menu">
+                <h2>Produtos</h2>
+                <p>Consultar e controlar estoque</p>
+            </a>
 
-        <a href="/ProjetoWeb/VIEW/venda/listaVenda.php" class="card-menu">
-            <h2>Vendas</h2>
-            <p>Registrar e acompanhar vendas</p>
-        </a>
-        <?php if($_SESSION['tipo'] == "admin"){ ?>
-        <a href="/ProjetoWeb/VIEW/usuario/listaUsuario.php" class="card-menu">
-            <h2>Usuários</h2>
-            <p>Administrar acessos ao sistema</p>
-        </a>
-        <?php } ?>
+            <a href="/ProjetoWeb/VIEW/venda/listaVenda.php" class="card-menu">
+                <h2>Vendas</h2>
+                <p>Registrar e acompanhar vendas</p>
+            </a>
+            <?php if ($_SESSION['tipo'] == "admin") { ?>
+                <a href="/ProjetoWeb/VIEW/usuario/listaUsuario.php" class="card-menu">
+                    <h2>Usuários</h2>
+                    <p>Administrar acessos ao sistema</p>
+                </a>
+            <?php } ?>
+        </div>
+
     </div>
 
-</div>
-
 </body>
+
 </html>

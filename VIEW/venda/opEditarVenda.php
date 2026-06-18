@@ -1,18 +1,17 @@
 <?php
-
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/venda.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/venda.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/item_venda.php";
 
     //---------validações
-    if($_SERVER['REQUEST_METHOD'] != 'POST'){
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         header("location: listaVenda.php");
         exit;
     }
@@ -23,7 +22,7 @@
     }
     //validação id
     $id = filter_input(INPUT_POST, 'id_venda', FILTER_VALIDATE_INT);
-    if($id === false || $id == null){
+    if ($id === false || $id == null) {
         header("location: erroGenerico.html");
         exit;
     }
@@ -36,10 +35,10 @@
     $valorVenda = 0;
 
     //valida se os vetores são do mesmo tamanho
-    if(count($produtos) != count($quantidades) || count($produtos) != count($valores)){
+    if (count($produtos) != count($quantidades) || count($produtos) != count($valores)) {
         header("Location: listaVenda.php");
         exit;
-    }   
+    }
 
     //valida estoque
     $dalProduto = new \DAL\Produto();
@@ -50,24 +49,23 @@
         $produto = $dalProduto->selectById((int)$produtos[$i]);
         $estaNaVenda = false;
 
-        foreach($itensVenda as $item){
-            if($produto->getId() == $item->getId_produto()){
+        foreach ($itensVenda as $item) {
+            if ($produto->getId() == $item->getId_produto()) {
                 $estaNaVenda = true;
                 $copiaItem = $item;
                 break;
             }
         }
-        if($estaNaVenda){
-            if($quantidades[$i] > $copiaItem->getQtde()){
+        if ($estaNaVenda) {
+            if ($quantidades[$i] > $copiaItem->getQtde()) {
                 $diferenca = $quantidades[$i] - $copiaItem->getQtde();
-                if($diferença > $produto->getQtde_estoque()){
-                    header("location: erroEstoque.php?id=".$produto->getId());
+                if ($diferenca > $produto->getQtde_estoque()) {
+                    header("location: erroEstoque.php?id=" . $produto->getId());
                     exit;
                 }
             }
-        }
-        elseif ($produto->getQtde_estoque() < $quantidades[$i]) {
-            header("location: erroEstoque.php?id=".$produto->getId());
+        } elseif ($produto->getQtde_estoque() < $quantidades[$i]) {
+            header("location: erroEstoque.php?id=" . $produto->getId());
             exit;
         }
     }
@@ -84,7 +82,7 @@
     $dalVenda = new \DAL\Venda();
     $resultado = $dalVenda->editInsert($modelVenda, $produtos, $quantidades, $valores);
 
-    switch($resultado){
+    switch ($resultado) {
         case "sucesso":
             header("location: listaVenda.php");
             exit;
@@ -92,6 +90,4 @@
             header("location: erroGenerico.html");
             exit;
     }
-
-
 ?>

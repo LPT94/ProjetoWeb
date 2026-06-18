@@ -1,17 +1,17 @@
 <?php
 
     session_start();
-    if(!isset($_SESSION['login'])){
+    if (!isset($_SESSION['login'])) {
         header("location: /ProjetoWeb/VIEW/index.php");
         exit;
     }
-    
+
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/venda.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/venda.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
 
     //---------validações
-    if($_SERVER['REQUEST_METHOD'] != 'POST'){
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         header("location: cadastroVenda.php");
         exit;
     }
@@ -28,7 +28,7 @@
     $valorVenda = 0;
 
     //valida se os vetores são do mesmo tamanho
-    if(count($produtos) != count($quantidades) || count($produtos) != count($valores)){
+    if (count($produtos) != count($quantidades) || count($produtos) != count($valores)) {
         header("Location: cadastroVenda.php");
         exit;
     }
@@ -40,7 +40,7 @@
         $produto = $dalProduto->selectById($produtos[$i]);
 
         if ($produto->getQtde_estoque() < $quantidades[$i]) {
-            header("location: erroEstoque.php?id=".$produto->getId());
+            header("location: erroEstoque.php?id=" . $produto->getId());
             exit;
         }
     }
@@ -56,10 +56,10 @@
     $modelVenda->setData_venda($data_venda);
 
     $dalVenda = new \DAL\Venda();
-    
+
     $resultado = $dalVenda->insert($modelVenda, $produtos, $quantidades, $valores);
 
-    switch($resultado){
+    switch ($resultado) {
         case "sucesso":
             header("location: listaVenda.php");
             exit;
@@ -67,5 +67,4 @@
             header("location: erroGenerico.php");
             exit;
     }
-    
 ?>
