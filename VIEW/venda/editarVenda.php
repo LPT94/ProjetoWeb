@@ -60,10 +60,17 @@
                 <select id="produto">
                     <option value=""> Selecione um produto </option>
                     <?php foreach ($listaProduto as $produto) {
-                        if ($produto->getQtde_estoque() > 0) { ?>
+                        $estoqueDisponivel = $produto->getQtde_estoque();
+                        foreach($itensVenda as $item){
+                            if($item->getId_produto() == $produto->getId()){
+                                $estoqueDisponivel += $item->getQtde();
+                                break;
+                            } 
+                        }   
+                        if ($estoqueDisponivel > 0) { ?>
                             <option value="<?php echo $produto->getId(); ?>"
                                 data-preco="<?php echo $produto->getPreco(); ?>"
-                                data-estoque="<?php echo $produto->getQtde_estoque(); ?>">
+                                data-estoque="<?php echo $estoqueDisponivel; ?>">
                                 <?php echo $produto->getNome(); ?> </option>
                     <?php }
                     } ?>
