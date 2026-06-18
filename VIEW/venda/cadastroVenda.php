@@ -1,11 +1,12 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/produto.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/produto.php";
+    
+    $dalProduto = new \DAL\Produto();
 
-$dalProduto = new \DAL\Produto();
-
-$listaProduto = $dalProduto->select();
+    $listaProduto = $dalProduto->select();
 
 ?>
 
