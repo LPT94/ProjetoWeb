@@ -1,4 +1,9 @@
 <?php
+    session_start();
+    if(!isset($_SESSION['login'])){
+        header("location: /ProjetoWeb/VIEW/index.php");
+        exit;
+    }
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
 ?>
 
@@ -34,10 +39,12 @@
             <h2>Vendas</h2>
             <p>Registrar e acompanhar vendas</p>
         </a>
+        <?php if($_SESSION['tipo'] == "admin"){ ?>
         <a href="/ProjetoWeb/VIEW/usuario/listaUsuario.php" class="card-menu">
             <h2>Usuários</h2>
             <p>Administrar acessos ao sistema</p>
         </a>
+        <?php } ?>
     </div>
 
 </div>

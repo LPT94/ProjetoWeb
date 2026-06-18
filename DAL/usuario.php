@@ -104,5 +104,22 @@
                 return "erro";
             }
         }
+
+        public function login(string $login, string $senha){
+            $sql = "SELECT * FROM usuario WHERE login = ? AND senha = ?";
+            $con = Conexao::conectar();
+            $query = $con->prepare($sql);
+            $query->execute(array($login, $senha));
+            $registro = $query->fetch(\PDO::FETCH_ASSOC);
+            Conexao::desconectar();
+
+            if($registro){
+                $usuario = new \MODEL\Usuario();
+                $usuario->setLogin($registro['login']);
+                $usuario->setTipo($registro['tipo']);
+                return $usuario;
+            }
+            return null;
+        }
     }
 ?>

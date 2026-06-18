@@ -1,5 +1,16 @@
 <?php
 
+    session_start();
+    if(!isset($_SESSION['login'])){
+        header("location: /ProjetoWeb/VIEW/index.php");
+        exit;
+    }
+
+    if($_SESSION['tipo'] != "admin"){
+        header("location: /ProjetoWeb/VIEW/home.php");
+        exit;
+    }
+    
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/usuario.php";
 
    //---------validações

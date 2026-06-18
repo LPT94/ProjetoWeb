@@ -1,5 +1,16 @@
 <?php
 
+    session_start();
+    if(!isset($_SESSION['login'])){
+        header("location: /ProjetoWeb/VIEW/index.php");
+        exit;
+    }
+
+    if($_SESSION['tipo'] != "admin"){
+        header("location: /ProjetoWeb/VIEW/home.php");
+        exit;
+    }
+    
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/usuario.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/usuario.php";
@@ -30,7 +41,7 @@
 <div class="container" style="text-align:center">
 
     <h1>Remover Usuario</h1>
-
+    <br>
     <form action="opRemoveUsuario.php" method="POST" onsubmit="return confirmarFormulario()">
 
         <div class="grupo-form">

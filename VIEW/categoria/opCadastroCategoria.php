@@ -1,5 +1,11 @@
 <?php
 
+    session_start();
+    if(!isset($_SESSION['login'])){
+        header("location: /ProjetoWeb/VIEW/index.php");
+        exit;
+    }
+    
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/DAL/categoria.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/MODEL/categoria.php";
 

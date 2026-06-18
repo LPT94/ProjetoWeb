@@ -1,4 +1,16 @@
 <?php
+
+    session_start();
+    if(!isset($_SESSION['login'])){
+        header("location: /ProjetoWeb/VIEW/index.php");
+        exit;
+    }
+
+    if($_SESSION['tipo'] != "admin"){
+        header("location: /ProjetoWeb/VIEW/home.php");
+        exit;
+    }
+    
     include_once $_SERVER['DOCUMENT_ROOT'] . "/ProjetoWeb/VIEW/menu.php";
 ?>
 
@@ -17,7 +29,7 @@
 <div class="container" style="text-align:center">
 
     <h1>Cadastro usuário</h1>
-
+    <br>
     <form action="opCadastroUsuario.php" method="POST" onsubmit="return validarFormulario()">
 
         <div class="grupo-form">
@@ -45,7 +57,7 @@
 
             <input
                 class="input-medio"
-                type="text"
+                type="password"
                 id="senha"
                 name="senha"
                 maxlength="32"

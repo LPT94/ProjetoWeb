@@ -1,3 +1,5 @@
+
+
 <nav class="menu">
     <a href="/ProjetoWeb/VIEW/home.php">Home</a>
 
@@ -13,7 +15,14 @@
         Vendas
     </a>
 
-    <a href="/ProjetoWeb/VIEW/usuario/listaUsuario.php">
-        Usuários
+    <?php if($_SESSION['tipo'] == "admin"){ ?>
+        <a href="/ProjetoWeb/VIEW/usuario/listaUsuario.php">
+            Usuarios
+        </a>
+    <?php } ?>
+    
+
+    <a href="/ProjetoWeb/VIEW/logout.php">
+        Logout
     </a>
 </nav>
